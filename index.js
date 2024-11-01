@@ -3,10 +3,16 @@ require('dotenv').config();
 
 const app = express();
 const cors = require('cors');
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/users', require('./routes/user.route'));
+
+
+// Error handler
+const errorHandler = require('./utils/errors/errorHandler');
+app.use(errorHandler);
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => {

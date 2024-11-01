@@ -14,6 +14,9 @@ const router = express.Router();
 
 router.get('/', authMiddleware, roleMiddleware([ROLES.ADMIN]), userController.getAllUsers);
 router.get('/:id', authMiddleware, userController.getUserById);
+router.get('/email/:email', authMiddleware, userController.getUserByEmail);
+router.get('/username/:username', authMiddleware, userController.getUserByUsername);
+
 router.post('/', authMiddleware, userController.createUser);
 router.put('/:id', authMiddleware, userController.updateUser);
 router.delete('/:id', authMiddleware, userController.deleteUser);

@@ -3,7 +3,7 @@
 */
 
 const user = require('../models/user.model');
-
+const customError = require('../utils/errors/customError');
 class UserService {
     static async createUser(data) {
         try {
@@ -38,14 +38,21 @@ class UserService {
         }
     }
 
+    static async getUserByUsername(username) {
+        try {
+            return await user.findOne({ where: { username } });
+        } catch (error) {
+            throw error;
+        }
+    }
+
     static async updateUser(id, data) {
         try {
             const userToUpdate = await user.findByPk(id);
-            if (userToUpdate) {
-                await userToUpdate.update(data);
-                return userToUpdate;
-            }
-            return null;
+            if (!userToUpdate)
+                throw new customError({ message: 'User not found', status: 404 });
+
+            return await userToUpdate.update(data);
         } catch (error) {
             throw error;
         }
@@ -57,6 +64,26 @@ class UserService {
             if (userToDelete) {
                 await userToDelete.destroy();
             }
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // check if email is already taken
+    static async isEmailTaken(email) {
+        try {
+            const user = await getUserByEmail(email);
+            return !!user;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // check if username is already taken
+    static async isUsernameTaken(username) {
+        try {
+            const user = await getUserByUsername(username);
+            return !!user;
         } catch (error) {
             throw error;
         }

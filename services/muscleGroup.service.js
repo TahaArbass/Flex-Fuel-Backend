@@ -1,4 +1,4 @@
-const muscleGroup = require('../models/muscle_group.model');
+const muscleGroup = require('../models/muscleGroup.model');
 
 class MuscleGroupService {
     static async createMuscleGroup(data) {
