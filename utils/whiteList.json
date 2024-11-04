@@ -1,0 +1,89 @@
+{
+  "Users": {
+    "create": {
+      "user": [
+        "username",
+        "email",
+        "password",
+        "profile_url",
+        "gender",
+        "age",
+        "weight",
+        "height"
+      ],
+      "admin": [
+        "username",
+        "email",
+        "password",
+        "profile_url",
+        "gender",
+        "age",
+        "weight",
+        "height",
+        "role",
+        "isVerified"
+      ]
+    },
+    "update": {
+      "user": [
+        "username",
+        "password",
+        "profile_url",
+        "gender",
+        "age",
+        "weight",
+        "height"
+      ],
+      "admin": [
+        "username",
+        "email",
+        "password",
+        "profile_url",
+        "gender",
+        "age",
+        "weight",
+        "height",
+        "role",
+        "isVerified"
+      ]
+    },
+    "get": {
+      "user": [
+        "id",
+        "username",
+        "profile_url",
+        "gender",
+        "age",
+        "weight",
+        "height",
+        "isVerified"
+      ],
+      "admin": [
+        "id",
+        "username",
+        "email",
+        "profile_url",
+        "gender",
+        "age",
+        "weight",
+        "height",
+        "role",
+        "isVerified"
+      ]
+    }
+  },
+  "MuscleGroups": {
+    "create": {
+      "user": ["muscle_group_name"],
+      "admin": ["muscle_group_name"]
+    },
+    "update": {
+      "user": [],
+      "admin": ["muscle_group_name"]
+    },
+    "get": {
+      "user": ["id", "muscle_group_name"],
+      "admin": ["id", "muscle_group_name"]
+    }
+  }
+}

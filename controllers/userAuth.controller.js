@@ -1,24 +1,25 @@
 const bcrypt = require('bcrypt');
 const jwtService = require('../services/jwt/jwt.service');
-const userService = require('../services/user.service');
+const UserService = require('../services/user.service');
 const CustomError = require('../utils/errors/customError');
-
+const { logInfo } = require('../utils/logger');
 class UserAuthController {
     static async signUp(req, res, next) {
         try {
+            logInfo(req, 'info');
             const data = req.body;
 
-            const isEmailTaken = await userService.isEmailTaken(data.email);
+            const isEmailTaken = await UserService.isEmailTaken(data.email);
             if (isEmailTaken) {
-                throw new CustomError({ message: 'Email is already taken', code: 400 });
+                throw new CustomError('Email is already taken', 400);
             }
 
-            const isUsernameTaken = await userService.isUsernameTaken(data.username);
+            const isUsernameTaken = await UserService.isUsernameTaken(data.username);
             if (isUsernameTaken) {
-                throw new CustomError({ message: 'Username is already taken', code: 400 });
+                throw new CustomError('Username is already taken', 400);
             }
 
-            const user = await userService.createUser(data);
+            const user = await UserService.createUser(data);
             const token = jwtService.createToken(user);
             res.status(201).json({ token, user });
         } catch (error) {
@@ -28,14 +29,15 @@ class UserAuthController {
 
     static async login(req, res, next) {
         try {
+            logInfo(req, 'info');
             const { email, password } = req.body;
-            const user = await userService.getUserByEmail(email);
+            const user = await UserService.getUserByEmail(email);
             if (!user) {
-                throw new CustomError({ message: 'Invalid credentials', code: 401 });
+                throw new CustomError('Invalid credentials', 401);
             }
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {
-                throw new CustomError({ message: 'Invalid credentials', code: 401 });
+                throw new CustomError('Invalid credentials', 401);
             }
             const token = jwtService.createToken(user);
             res.status(200).json({ token, user });

@@ -2,6 +2,7 @@
 
 const jwtService = require('../services/jwt/jwt.service');
 require('dotenv').config();
+const CustomError = require('../utils/errors/customError');
 
 const authMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -9,7 +10,7 @@ const authMiddleware = (req, res, next) => {
     const token = authHeader && authHeader.split(' ')[1];
 
     if (!token) {
-        return res.status(401).json({ message: 'Access denied' });
+        throw new CustomError('Unauthorized. No token provided.', 401);
     }
 
     try {
@@ -17,7 +18,7 @@ const authMiddleware = (req, res, next) => {
         req.user = decoded;
         next();
     } catch (error) {
-        res.status(403).json({ message: 'Invalid token' });
+        next(error);
     }
 };
 

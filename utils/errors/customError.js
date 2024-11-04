@@ -1,50 +1,32 @@
 // errors/CustomError.js
-class CustomError extends Error {
-    constructor({ message, code = 500 }) {
-        super(message);
-        this.code = code;                        // HTTP status code (e.g., 404, 400, etc.)
-        this.status = this.getStatus(code)       // HTTP status message (e.g., 'Not Found', 'Bad Request', etc.)
+require('dotenv').config();
 
-        // Only include stack trace if in development mode
-        if (process.env.NODE_ENV === 'development') {
-            this.stackTrace = this.stack;
-        } else {
-            this.stackTrace = null;
-        }
+class CustomError extends Error {
+    constructor(message = 'An unexpected error occurred', code = 500) {
+        super(message);
+        this.code = code;                          // HTTP status code (e.g., 404, 400, etc.)
+        this.status = this.getStatus(code);         // HTTP status message (e.g., 'Not Found', 'Bad Request', etc.)
+        this.stackTrace = process.env.NODE_ENV === 'development' ? this.stack : null; // Include stack trace only in development
     }
 
-    // function to get the status 
+    // Method to get the HTTP status message based on the code
     getStatus(code) {
-        switch (code) {
-            case 200:
-                return 'OK';
-            case 201:
-                return 'CREATED';
-            case 204:
-                return 'NO_CONTENT';
-            case 400:
-                return 'BAD_REQUEST';
-            case 401:
-                return 'UNAUTHORIZED';
-            case 403:
-                return 'FORBIDDEN';
-            case 404:
-                return 'NOT_FOUND';
-            case 405:
-                return 'METHOD_NOT_ALLOWED';
-            case 409:
-                return 'CONFLICT';
-            case 422:
-                return 'UNPROCESSABLE_ENTITY';
-            case 429:
-                return 'TOO_MANY_REQUESTS';
-            case 500:
-                return 'INTERNAL_SERVER_ERROR';
-            case 503:
-                return 'SERVICE_UNAVAILABLE';
-            default:
-                return 'INTERNAL_SERVER_ERROR';
-        }
+        const statusMessages = {
+            200: 'OK',
+            201: 'CREATED',
+            204: 'NO_CONTENT',
+            400: 'BAD_REQUEST',
+            401: 'UNAUTHORIZED',
+            403: 'FORBIDDEN',
+            404: 'NOT_FOUND',
+            405: 'METHOD_NOT_ALLOWED',
+            409: 'CONFLICT',
+            422: 'UNPROCESSABLE_ENTITY',
+            429: 'TOO_MANY_REQUESTS',
+            500: 'INTERNAL_SERVER_ERROR',
+            503: 'SERVICE_UNAVAILABLE',
+        };
+        return statusMessages[code] || 'INTERNAL_SERVER_ERROR';
     }
 }
 

@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const CustomError = require('../../utils/errors/customError');
 
 // create token for the user
 const createToken = (user) => {
@@ -10,7 +11,21 @@ const createToken = (user) => {
 
 // verify token for authentication
 const verifyToken = (token) => {
-    return jwt.verify(token, process.env.JWT_SECRET);
+    try {
+        if (!token) {
+            throw new CustomError('Unauthorized. No token provided.', 401);
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        return decoded;
+    } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+            error.message = 'Unauthorized. Token expired.';
+            error.code = 401;
+        }
+        throw (error);
+    }
+
 }
 
 // refresh token in case of expiration
@@ -20,4 +35,4 @@ const refreshToken = (user) => {
     });
 }
 
-module.exports = { createToken, verifyToken };
+module.exports = { createToken, verifyToken, refreshToken };

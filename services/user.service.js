@@ -1,69 +1,87 @@
-/* This file contains the user services.
+/* This file contains the User services.
 **************************************************
 */
 
-const user = require('../models/user.model');
-const customError = require('../utils/errors/customError');
+const User = require('../models/User.model');
+const CustomError = require('../utils/errors/customError');
 class UserService {
+    // create a new User
     static async createUser(data) {
         try {
-            return await user.create(data);
+            return await User.create(data);
         } catch (error) {
             throw error;
         }
     }
 
+    // get all Users
     static async getAllUsers() {
         try {
-            return await user.findAll();
+            return await User.findAll();
         } catch (error) {
             throw error;
         }
     }
 
+    // get User by id
     static async getUserById(id) {
         try {
-            if (!id) return null;
-            return await user.findByPk(id);
+            const user = await User.findByPk(id);
+            if (!user)
+                throw new CustomError('User not found', 404);
+
+            return user;
         } catch (error) {
             throw error;
         }
     }
 
+    // get User by email
     static async getUserByEmail(email) {
         try {
-            return await user.findOne({ where: { email } });
+            const user = await User.findOne({ where: { email } });
+            if (!user)
+                throw new CustomError('User not found', 404);
+
+            return user;
         } catch (error) {
             throw error;
         }
     }
 
+    // get User by Username
     static async getUserByUsername(username) {
         try {
-            return await user.findOne({ where: { username } });
+            const user = await User.findOne({ where: { username } });
+            if (!user)
+                throw new CustomError('User not found', 404);
+            return user;
         } catch (error) {
             throw error;
         }
     }
 
+    // update User by id
     static async updateUser(id, data) {
         try {
-            const userToUpdate = await user.findByPk(id);
-            if (!userToUpdate)
-                throw new customError({ message: 'User not found', status: 404 });
+            const UserToUpdate = await User.findByPk(id);
+            if (!UserToUpdate)
+                throw new CustomError('User not found', 404);
 
-            return await userToUpdate.update(data);
+            return await UserToUpdate.update(data);
         } catch (error) {
             throw error;
         }
     }
 
+    // delete User by id
     static async deleteUser(id) {
         try {
-            const userToDelete = await user.findByPk(id);
-            if (userToDelete) {
-                await userToDelete.destroy();
-            }
+            const UserToDelete = await User.findByPk(id);
+            if (!UserToDelete)
+                throw new CustomError('User not found', 404);
+
+            await UserToDelete.destroy();
         } catch (error) {
             throw error;
         }
@@ -79,7 +97,7 @@ class UserService {
         }
     }
 
-    // check if username is already taken
+    // check if Username is already taken
     static async isUsernameTaken(username) {
         try {
             const user = await getUserByUsername(username);
