@@ -37,9 +37,9 @@ class UserAuthController {
             logInfo(req, 'info');
             const { email, password } = req.body;
             const user = await UserService.getUserByEmail(email);
-            if (!user.isVerified) {
-                throw new CustomError('Email is not verified', 400);
-            }
+            // if (!user.isVerified) {
+            //     throw new CustomError('Email is not verified', 400);
+            // }
             if (!user) {
                 throw new CustomError('Invalid credentials', 401);
             }

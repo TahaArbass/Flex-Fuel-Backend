@@ -67,7 +67,7 @@ class MuscleService {
     }
 
     // create a new muscle
-    static async addMuscle(data) {
+    static async createMuscle(data) {
         try {
             const muscleGroup = await MuscleGroupService.getMuscleGroupById(data.muscle_group_id);
             if (!muscleGroup)

@@ -101,11 +101,11 @@ class MuscleController {
     }
 
     // create a muscle
-    static async addMuscle(req, res, next) {
+    static async createMuscle(req, res, next) {
         try {
             logInfo(req, 'info');
             const data = req.body;
-            const muscle = await MuscleService.addMuscle(data);
+            const muscle = await MuscleService.createMuscle(data);
 
             // filter the data
             const role = req.user.role;

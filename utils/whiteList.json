@@ -99,5 +99,49 @@
       "user": ["id", "muscle_name", "muscle_description", "muscle_group_id"],
       "admin": ["id", "muscle_name", "muscle_description", "muscle_group_id"]
     }
+  },
+  "Exercises": {
+    "create": {
+      "user": [],
+      "admin": [
+        "exercise_name",
+        "exercise_description",
+        "exercise_steps",
+        "photo_url",
+        "video_url",
+        "target_muscle_id"
+      ]
+    },
+    "update": {
+      "user": [],
+      "admin": [
+        "exercise_name",
+        "exercise_description",
+        "exercise_steps",
+        "photo_url",
+        "video_url",
+        "target_muscle_id"
+      ]
+    },
+    "get": {
+      "user": [
+        "id",
+        "exercise_name",
+        "exercise_description",
+        "exercise_steps",
+        "photo_url",
+        "video_url",
+        "target_muscle_id"
+      ],
+      "admin": [
+        "id",
+        "exercise_name",
+        "exercise_description",
+        "exercise_steps",
+        "photo_url",
+        "video_url",
+        "target_muscle_id"
+      ]
+    }
   }
 }

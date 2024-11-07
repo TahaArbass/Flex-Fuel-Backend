@@ -24,7 +24,7 @@ router.get('/muscle-group/name/:muscle_group_name', authMiddleware, MuscleContro
 
 // create a muscle
 router.post('/', authMiddleware, roleMiddleware(ROLES.ADMIN), filterFieldsMiddleware(TABLES.MUSCLE, 'create'),
-    MuscleController.addMuscle);
+    MuscleController.createMuscle);
 
 // update a muscle
 router.put('/:id', authMiddleware, roleMiddleware(ROLES.ADMIN), filterFieldsMiddleware(TABLES.MUSCLE, 'update'), MuscleController.updateMuscle);

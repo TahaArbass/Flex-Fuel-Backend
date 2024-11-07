@@ -19,7 +19,7 @@ router.get('/email/:email', authMiddleware, userController.getUserByEmail);
 router.get('/username/:username', authMiddleware, userController.getUserByUsername);
 
 // Create, update, and delete users
-router.post('/', authMiddleware, userController.createUser);
+router.post('/', authMiddleware, roleMiddleware(ROLES.ADMIN), userController.createUser);
 router.put('/:id', authMiddleware, userController.updateUser);
 router.delete('/:id', authMiddleware, userController.deleteUser);
 

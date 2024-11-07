@@ -7,9 +7,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Routes
 app.use('/api/users', require('./routes/user.route'));
 app.use('/api/muscle-groups', require('./routes/muscleGroup.route'));
 app.use('/api/muscles', require('./routes/muscle.route'));
+app.use('/api/exercises', require('./routes/exercise.route'));
 
 
 // Error handler
