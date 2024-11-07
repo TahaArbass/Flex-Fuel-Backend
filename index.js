@@ -9,6 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/users', require('./routes/user.route'));
 app.use('/api/muscle-groups', require('./routes/muscleGroup.route'));
+app.use('/api/muscles', require('./routes/muscle.route'));
 
 
 // Error handler

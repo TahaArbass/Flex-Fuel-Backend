@@ -1,13 +1,20 @@
 const UserService = require('../services/user.service');
 const CustomError = require('../utils/errors/customError');
 const { logInfo } = require('../utils/logger');
+const filterGetRequestsData = require('../utils/filterGetRequestsData');
+const { TABLES } = require('../utils/staticData');
 class UserController {
     static async createUser(req, res, next) {
         try {
             logInfo(req, 'info');
             const data = req.body;
             const user = await UserService.createUser(data);
-            res.status(201).json(user);
+
+            // filter the data
+            const role = req.user.role;
+            const filteredData = filterGetRequestsData(TABLES.USER, role, user);
+
+            res.status(201).json(filteredData);
         } catch (error) {
             next(error);
         }
@@ -17,7 +24,10 @@ class UserController {
         try {
             logInfo(req, 'info');
             const users = await UserService.getAllUsers();
-            res.status(200).json(users);
+            // filter the data
+            const role = req.user.role;
+            const filteredData = filterGetRequestsData(TABLES.USER, role, users);
+            res.status(200).json(filteredData);
         } catch (error) {
             next(error);
         }
@@ -30,9 +40,11 @@ class UserController {
             const user = await UserService.getUserById(id);
             if (!user) {
                 throw new CustomError('User not found', 404);
-            } else {
-                res.status(200).json(user);
             }
+            // filter the data
+            const role = req.user.role;
+            const filteredData = filterGetRequestsData(TABLES.USER, role, user);
+            res.status(200).json(filteredData);
         } catch (error) {
             next(error);
         }
@@ -46,9 +58,11 @@ class UserController {
             const user = await UserService.getUserByUsername(username);
             if (!user) {
                 throw new CustomError('User not found', 404);
-            } else {
-                res.status(200).json(user);
             }
+            // filter the data
+            const role = req.user.role;
+            const filteredData = filterGetRequestsData(TABLES.USER, role, user);
+            res.status(200).json(filteredData);
         } catch (error) {
             next(error);
         }
@@ -62,9 +76,11 @@ class UserController {
             const user = await UserService.getUserByEmail(email);
             if (!user) {
                 throw new CustomError('User not found', 404);
-            } else {
-                res.status(200).json(user);
             }
+            // filter the data
+            const role = req.user.role;
+            const filteredData = filterGetRequestsData(TABLES.USER, role, user);
+            res.status(200).json(filteredData);
         } catch (error) {
             next(error);
         }
@@ -78,9 +94,11 @@ class UserController {
             const user = await UserService.updateUser(id, data);
             if (!user) {
                 throw new CustomError('User not found', 404);
-            } else {
-                res.status(200).json(user);
             }
+            // filter the data
+            const role = req.user.role;
+            const filteredData = filterGetRequestsData(TABLES.USER, role, user);
+            res.status(200).json(filteredData);
         } catch (error) {
             next(error);
         }

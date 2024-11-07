@@ -4,15 +4,20 @@ const { ACTIONS } = require('./staticData');
 const whitelist = require('./whiteList.json');
 
 const filterGetRequestsData = (entity, role, dataToFilter) => {
+    if (!entity || !role || !dataToFilter) {
+        throw new CustomError({
+            message: 'Entity, role, and dataToFilter are required',
+            code: 400,
+        });
+    }
     // Fetch allowed fields for the specified entity and role
     const allowedFields = whitelist[entity]?.[ACTIONS.GET]?.[role];
 
     // Check if allowed fields exist; throw error if not authorized
     if (!allowedFields) {
-        throw new CustomError({
-            message: `Unauthorized action: ${ACTIONS.GET} on ${entity}`,
-            code: 403,
-        });
+        throw new CustomError(
+            `Unauthorized action: ${ACTIONS.GET} on ${entity}`, 403
+        );
     }
 
     // Determine if dataToFilter is an array or a single object

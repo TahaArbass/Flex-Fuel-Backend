@@ -3,6 +3,8 @@ const jwtService = require('../services/jwt/jwt.service');
 const UserService = require('../services/user.service');
 const CustomError = require('../utils/errors/customError');
 const { logInfo } = require('../utils/logger');
+const filterGetRequestsData = require('../utils/filterGetRequestsData');
+const { TABLES } = require('../utils/staticData');
 class UserAuthController {
     static async signUp(req, res, next) {
         try {
@@ -21,7 +23,10 @@ class UserAuthController {
 
             const user = await UserService.createUser(data);
             const token = jwtService.createToken(user);
-            res.status(201).json({ token, user });
+
+            // filter the data
+            const filteredData = filterGetRequestsData(TABLES.USER, user.role, user);
+            res.status(201).json({ token, user: filteredData });
         } catch (error) {
             next(error);
         }
@@ -32,6 +37,9 @@ class UserAuthController {
             logInfo(req, 'info');
             const { email, password } = req.body;
             const user = await UserService.getUserByEmail(email);
+            if (!user.isVerified) {
+                throw new CustomError('Email is not verified', 400);
+            }
             if (!user) {
                 throw new CustomError('Invalid credentials', 401);
             }
@@ -40,7 +48,9 @@ class UserAuthController {
                 throw new CustomError('Invalid credentials', 401);
             }
             const token = jwtService.createToken(user);
-            res.status(200).json({ token, user });
+            // filter the data
+            const filteredData = filterGetRequestsData(TABLES.USER, user.role, user);
+            res.status(200).json({ token, user: filteredData });
         } catch (error) {
             next(error);
         }

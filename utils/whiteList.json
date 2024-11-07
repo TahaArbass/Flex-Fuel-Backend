@@ -85,5 +85,19 @@
       "user": ["id", "muscle_group_name"],
       "admin": ["id", "muscle_group_name"]
     }
+  },
+  "Muscles": {
+    "create": {
+      "user": [],
+      "admin": ["muscle_name", "muscle_description", "muscle_group_id"]
+    },
+    "update": {
+      "user": [],
+      "admin": ["muscle_name", "muscle_description", "muscle_group_id"]
+    },
+    "get": {
+      "user": ["id", "muscle_name", "muscle_description", "muscle_group_id"],
+      "admin": ["id", "muscle_name", "muscle_description", "muscle_group_id"]
+    }
   }
 }
