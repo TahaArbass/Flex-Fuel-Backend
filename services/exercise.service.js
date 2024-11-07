@@ -1,6 +1,6 @@
-const { login } = require('../controllers/userAuth.controller');
 const Exercise = require('../models/exercise.model');
 const MuscleService = require('./muscle.service');
+const CustomError = require('../utils/CustomError');
 
 // Exercise Service
 class ExerciseService {

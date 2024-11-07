@@ -12,6 +12,7 @@ app.use('/api/users', require('./routes/user.route'));
 app.use('/api/muscle-groups', require('./routes/muscleGroup.route'));
 app.use('/api/muscles', require('./routes/muscle.route'));
 app.use('/api/exercises', require('./routes/exercise.route'));
+app.use('/api/categories', require('./routes/category.route'));
 
 
 // Error handler

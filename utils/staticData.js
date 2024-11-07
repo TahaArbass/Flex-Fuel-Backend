@@ -8,6 +8,7 @@ const TABLES = {
     MUSCLE_GROUP: 'MuscleGroups',
     MUSCLE: 'Muscles',
     EXERCISE: 'Exercises',
+    CATEGORY: 'Categories',
 };
 
 const ACTIONS = {
