@@ -9,6 +9,7 @@ const TABLES = {
     MUSCLE: 'Muscles',
     EXERCISE: 'Exercises',
     CATEGORY: 'Categories',
+    EXERCISE_CATEGORY: 'ExerciseCategories',
 };
 
 const ACTIONS = {

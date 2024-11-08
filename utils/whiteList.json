@@ -143,5 +143,33 @@
         "targeted_muscle_id"
       ]
     }
+  },
+  "Categories": {
+    "create": {
+      "user": [],
+      "admin": ["category_name"]
+    },
+    "update": {
+      "user": [],
+      "admin": ["category_name"]
+    },
+    "get": {
+      "user": ["id", "category_name"],
+      "admin": ["id", "category_name"]
+    }
+  },
+  "ExerciseCategories": {
+    "create": {
+      "user": [],
+      "admin": ["category_id", "exercise_id"]
+    },
+    "update": {
+      "user": [],
+      "admin": ["category_id", "exercise_id"]
+    },
+    "get": {
+      "user": ["id", "category_id", "exercise_id"],
+      "admin": ["id", "category_id", "exercise_id"]
+    }
   }
 }
