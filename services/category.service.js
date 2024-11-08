@@ -1,5 +1,5 @@
 const Category = require('../models/category.model');
-const CustomError = require('../utils/CustomError');
+const CustomError = require('../utils/errors/customError');
 
 // Category Service
 class CategoryService {

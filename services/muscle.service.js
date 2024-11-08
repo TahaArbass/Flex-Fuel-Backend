@@ -86,7 +86,6 @@ class MuscleService {
             const updatedMuscle = await Muscle.findByPk(id);
             if (!updatedMuscle)
                 throw new CustomError('Muscle not found ', 404);
-
             return await updatedMuscle.update(data);
         }
         catch (error) {

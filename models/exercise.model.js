@@ -37,11 +37,11 @@ const Exercise = sequelize.define('Exercise', {
     },
     photo_url: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     video_url: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     targeted_muscle_id: {
         type: DataTypes.UUID,

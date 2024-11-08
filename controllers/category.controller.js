@@ -1,5 +1,5 @@
 const CategoryService = require('../services/category.service');
-const CustomError = require('../utils/CustomError');
+const CustomError = require('../utils/errors/customError');
 const { logInfo } = require('../utils/logger');
 const filterGetRequestsData = require('../utils/filterGetRequestsData');
 const { TABLES } = require('../utils/staticData');

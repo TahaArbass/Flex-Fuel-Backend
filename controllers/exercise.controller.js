@@ -6,7 +6,7 @@ const CustomError = require('../utils/errors/customError');
 // Exercise Controller
 class ExerciseController {
     // get all exercises
-    static async getAllExercises(req, res) {
+    static async getAllExercises(req, res, next) {
         try {
             logInfo(req, 'info');
             const exercises = await ExerciseService.getAllExercises();
@@ -19,7 +19,7 @@ class ExerciseController {
     }
 
     // get an exercise by id
-    static async getExerciseById(req, res) {
+    static async getExerciseById(req, res, next) {
         try {
             logInfo(req, 'info');
             const id = req.params.id;
@@ -36,7 +36,7 @@ class ExerciseController {
     }
 
     // get exercises by targeted muscle id
-    static async getExercisesByTargetedMuscleId(req, res) {
+    static async getExercisesByTargetedMuscleId(req, res, next) {
         try {
             logInfo(req, 'info');
             const targetedMuscleId = req.params.targetedMuscleId;
@@ -53,7 +53,7 @@ class ExerciseController {
     }
 
     // get an exercise by name
-    static async getExerciseByName(req, res) {
+    static async getExerciseByName(req, res, next) {
         try {
             logInfo(req, 'info');
             const name = req.params.exercise_name;
@@ -70,10 +70,11 @@ class ExerciseController {
     }
 
     // create an exercise
-    static async createExercise(req, res) {
+    static async createExercise(req, res, next) {
         try {
             logInfo(req, 'info');
             const data = req.body;
+            console.log(data);
             const newExercise = await ExerciseService.createExercise(data);
             // filter the data
             const filteredData = filterGetRequestsData(TABLES.EXERCISE, req.user.role, newExercise);
@@ -84,7 +85,7 @@ class ExerciseController {
     }
 
     // update an exercise
-    static async updateExercise(req, res) {
+    static async updateExercise(req, res, next) {
         try {
             logInfo(req, 'info');
             const id = req.params.id;
@@ -102,7 +103,7 @@ class ExerciseController {
     }
 
     // delete an exercise
-    static async deleteExercise(req, res) {
+    static async deleteExercise(req, res, next) {
         try {
             logInfo(req, 'info');
             const id = req.params.id;

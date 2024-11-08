@@ -1,7 +1,7 @@
 /* This middleware checks if the authenticated user is an admin 
 or the owner of the data they are trying to modify. */
 
-const CustomError = require('../errors/CustomError');
+const CustomError = require('../utils/errors/customError');
 const { ROLES } = require('../utils/staticData');
 
 const verifyOwnershipMiddleware = () => (req, res, next) => {

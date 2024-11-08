@@ -1,9 +1,8 @@
 const ExerciseController = require('../controllers/exercise.controller');
 const authMiddleware = require('../middlewares/authMiddleware');
 const requiredRole = require('../middlewares/roleMiddleware');
-const { ROLES } = require('../utils/constants');
 const filterFieldsMiddleware = require('../middlewares/filterFieldsMiddleware');
-const { TABLES, ACTIONS } = require('../utils/staticData');
+const { TABLES, ACTIONS, ROLES } = require('../utils/staticData');
 
 const router = require('express').Router();
 

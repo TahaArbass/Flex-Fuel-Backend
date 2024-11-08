@@ -109,7 +109,7 @@
         "exercise_steps",
         "photo_url",
         "video_url",
-        "target_muscle_id"
+        "targeted_muscle_id"
       ]
     },
     "update": {
@@ -120,7 +120,7 @@
         "exercise_steps",
         "photo_url",
         "video_url",
-        "target_muscle_id"
+        "targeted_muscle_id"
       ]
     },
     "get": {
@@ -131,7 +131,7 @@
         "exercise_steps",
         "photo_url",
         "video_url",
-        "target_muscle_id"
+        "targeted_muscle_id"
       ],
       "admin": [
         "id",
@@ -140,7 +140,7 @@
         "exercise_steps",
         "photo_url",
         "video_url",
-        "target_muscle_id"
+        "targeted_muscle_id"
       ]
     }
   }
