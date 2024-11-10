@@ -40,9 +40,6 @@ class UserService {
     static async getUserByEmail(email) {
         try {
             const user = await User.findOne({ where: { email } });
-            if (!user)
-                throw new CustomError('User not found', 404);
-
             return user;
         } catch (error) {
             throw error;
@@ -53,8 +50,6 @@ class UserService {
     static async getUserByUsername(username) {
         try {
             const user = await User.findOne({ where: { username } });
-            if (!user)
-                throw new CustomError('User not found', 404);
             return user;
         } catch (error) {
             throw error;
@@ -90,7 +85,7 @@ class UserService {
     // check if email is already taken
     static async isEmailTaken(email) {
         try {
-            const user = await getUserByEmail(email);
+            const user = await this.getUserByEmail(email);
             return !!user;
         } catch (error) {
             throw error;
@@ -100,7 +95,7 @@ class UserService {
     // check if Username is already taken
     static async isUsernameTaken(username) {
         try {
-            const user = await getUserByUsername(username);
+            const user = await this.getUserByUsername(username);
             return !!user;
         } catch (error) {
             throw error;
