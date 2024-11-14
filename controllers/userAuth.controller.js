@@ -55,6 +55,18 @@ class UserAuthController {
             next(error);
         }
     }
+
+    // // refresh token
+    // static async refreshToken(req, res, next) {
+    //     try {
+    //         logInfo(req, 'info');
+    //         const user = req.user;
+    //         const token = jwtService.createToken(user);
+    //         res.status(200).json({ token });
+    //     } catch (error) {
+    //         next(error);
+    //     }
+    // }
 }
 
 module.exports = UserAuthController;
