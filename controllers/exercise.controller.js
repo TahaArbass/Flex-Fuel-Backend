@@ -26,7 +26,7 @@ class ExerciseController {
             if (!id) {
                 throw new CustomError('Please provide an id', 400);
             }
-            const exercise = await ExerciseService.getExerciseById();
+            const exercise = await ExerciseService.getExerciseById(id);
             // filter the data
             const filteredData = filterGetRequestsData(TABLES.EXERCISE, req.user.role, exercise);
             return res.status(200).json(filteredData);
@@ -63,6 +63,23 @@ class ExerciseController {
             const exercise = await ExerciseService.getExerciseByName(name);
             // filter the data
             const filteredData = filterGetRequestsData(TABLES.EXERCISE, req.user.role, exercise);
+            return res.status(200).json(filteredData);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    // get exercises by muscle group name
+    static async getExercisesByMuscleGroupName(req, res, next) {
+        try {
+            logInfo(req, 'info');
+            const muscleGroupName = req.params.muscle_group_name;
+            if (!muscleGroupName) {
+                throw new CustomError('Please provide a muscle group name', 400);
+            }
+            const exercises = await ExerciseService.getExercisesByMuscleGroupName(muscleGroupName);
+            // filter the data
+            const filteredData = filterGetRequestsData(TABLES.EXERCISE, req.user.role, exercises);
             return res.status(200).json(filteredData);
         } catch (error) {
             next(error);

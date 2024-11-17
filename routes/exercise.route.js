@@ -18,6 +18,9 @@ router.get('/muscle/:targetedMuscleId', authMiddleware, ExerciseController.getEx
 // Get an exercise by name
 router.get('/name/:exercise_name', authMiddleware, ExerciseController.getExerciseByName);
 
+// Get exercises by muscle group name
+router.get('/muscle-group/:muscle_group_name', authMiddleware, ExerciseController.getExercisesByMuscleGroupName);
+
 // Create an exercise
 router.post('/', authMiddleware, requiredRole(ROLES.ADMIN),
     filterFieldsMiddleware(TABLES.EXERCISE, ACTIONS.CREATE),

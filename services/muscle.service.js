@@ -55,7 +55,7 @@ class MuscleService {
         try {
             const muscleGroup = await MuscleGroupService.getMuscleGroupByName(muscleGroupName);
             const muscles = await Muscle.findAll({
-                muscle_group_id: muscleGroup.id,
+                where: { muscle_group_id: muscleGroup.id }
             })
             if (!muscles)
                 throw new CustomError('Muscles not found', 404);

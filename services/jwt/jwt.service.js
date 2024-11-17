@@ -20,8 +20,7 @@ const verifyToken = (token) => {
         return decoded;
     } catch (error) {
         if (error.name === 'TokenExpiredError') {
-            error.message = 'Unauthorized. Token expired.';
-            error.code = 401;
+            throw new CustomError('Unauthorized. Token expired.', 401); // token expired
         }
         throw (error);
     }

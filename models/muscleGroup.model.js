@@ -21,6 +21,10 @@ const MuscleGroup = sequelize.define('MuscleGroup', {
         allowNull: false,
         unique: true,
     },
+    photo_url: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
 });
 
 module.exports = MuscleGroup;

@@ -74,16 +74,16 @@
   },
   "MuscleGroups": {
     "create": {
-      "user": ["muscle_group_name"],
-      "admin": ["muscle_group_name"]
+      "user": [],
+      "admin": ["muscle_group_name", "photo_url"]
     },
     "update": {
       "user": [],
-      "admin": ["muscle_group_name"]
+      "admin": ["muscle_group_name", "photo_url"]
     },
     "get": {
-      "user": ["id", "muscle_group_name"],
-      "admin": ["id", "muscle_group_name"]
+      "user": ["id", "muscle_group_name", "photo_url"],
+      "admin": ["id", "muscle_group_name", "photo_url"]
     }
   },
   "Muscles": {

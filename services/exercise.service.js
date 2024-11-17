@@ -1,7 +1,6 @@
 const Exercise = require('../models/exercise.model');
 const MuscleService = require('./muscle.service');
 const CustomError = require('../utils/errors/customError');
-
 // Exercise Service
 class ExerciseService {
 
@@ -51,6 +50,21 @@ class ExerciseService {
         }
     }
 
+    // get exercise by muscle group name
+    static async getExercisesByMuscleGroupName(muscleGroupName) {
+        try {
+            const muscles = await MuscleService.getMusclesByMuscleGroupName(muscleGroupName);
+            const exercises = await Exercise.findAll({
+                where: {
+                    targeted_muscle_id: muscles.map(m => m.id)
+                }
+            });
+            return exercises;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     // create an exercise
     static async createExercise(exercise) {
         try {
@@ -70,11 +84,13 @@ class ExerciseService {
             const exerciseToUpdate = await Exercise.findByPk(id);
             if (!exerciseToUpdate)
                 throw new CustomError(`Exercise not found`, 404);
-            const targetedMuscle = await MuscleService.getMuscleById(exercise.targeted_muscle_id);
 
-            if (!targetedMuscle)
-                throw new CustomError(`Muscle not found`, 404);
+            if (exercise.targeted_muscle_id) {
+                const targetedMuscle = await MuscleService.getMuscleById(exercise.targeted_muscle_id);
 
+                if (!targetedMuscle)
+                    throw new CustomError(`Muscle not found`, 404);
+            }
             return await exerciseToUpdate.update(exercise);
         } catch (error) {
             throw error;
