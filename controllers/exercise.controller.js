@@ -3,6 +3,7 @@ const { logInfo } = require('../utils/logger');
 const filterGetRequestsData = require('../utils/filterGetRequestsData');
 const { TABLES } = require('../utils/staticData');
 const CustomError = require('../utils/errors/customError');
+const ImgBBService = require('../services/upload Services/imageBB.service');
 // Exercise Controller
 class ExerciseController {
     // get all exercises
@@ -91,7 +92,6 @@ class ExerciseController {
         try {
             logInfo(req, 'info');
             const data = req.body;
-            console.log(data);
             const newExercise = await ExerciseService.createExercise(data);
             // filter the data
             const filteredData = filterGetRequestsData(TABLES.EXERCISE, req.user.role, newExercise);
@@ -110,6 +110,17 @@ class ExerciseController {
                 throw new CustomError('Please provide an id', 400);
             }
             const data = req.body;
+            // check if photo url is a file
+            if (data.photo_url && data.photo_url instanceof Object) {
+                const image = data.photo_url;
+                const imageBuffer = Buffer.from(image.buffer);
+                const imageResponse = await ImgBBService.uploadImage(imageBuffer, 'exercises');
+                // check the response if there is an error
+                if (imageResponse.error) {
+                    throw new CustomError(imageResponse.error, 400);
+                }
+                data.photo_url = imageResponse.url;
+            }
             const updatedExercise = await ExerciseService.updateExercise(id, data);
             // filter the data
             const filteredData = filterGetRequestsData(TABLES.EXERCISE, req.user.role, updatedExercise);
