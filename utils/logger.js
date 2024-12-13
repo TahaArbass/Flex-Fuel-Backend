@@ -37,4 +37,24 @@ const logInfo = (req, type) => {
     }
 }
 
-module.exports = { logger, logInfo };
+// log socket info
+const logSocketInfo = (socket, type, event) => {
+    const message = `Socket:${socket.id} - event:${event} - address:${socket.handshake.address}
+    ************************************************************`;
+    switch (type) {
+        case 'info':
+            logger.info(message);
+            break;
+        case 'error':
+            logger.error(message);
+            break;
+        case 'warn':
+            logger.warn(message);
+            break;
+        default:
+            logger.info(message);
+            break;
+    }
+}
+
+module.exports = { logger, logInfo, logSocketInfo };
