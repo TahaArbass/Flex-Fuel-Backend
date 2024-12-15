@@ -20,6 +20,7 @@ app.use('/api/muscles', require('./routes/muscle.route'));
 app.use('/api/exercises', require('./routes/exercise.route'));
 app.use('/api/categories', require('./routes/category.route'));
 app.use('/api/exercise-categories', require('./routes/exerciseCategory.route'));
+app.use('/api/followers', require('./routes/follower.route'));
 app.use('/api/chats', require('./mongodb/chat/chat.route'));
 
 // Error handler

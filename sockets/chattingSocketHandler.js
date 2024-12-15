@@ -1,11 +1,10 @@
 const { logSocketInfo } = require("../utils/logger");
 const chatService = require("../mongodb/chat/chat.service");
-
+const CustomError = require("../utils/errors/customError");
 const chattingSocketHandler = (socket, io, userSocketMap) => {
     // put the socket id in the userSocketMap
     userSocketMap[socket.user.id] = socket.id;
     console.log('users:' + JSON.stringify(userSocketMap));
-
     // handle sendMessage event
     socket.on("sendMessage", async (data) => {
         logSocketInfo(socket, "info", `sendMessage: ${JSON.stringify(data)}`);
@@ -14,57 +13,21 @@ const chattingSocketHandler = (socket, io, userSocketMap) => {
             if (!message || !chat_id) {
                 throw new Error("Message and Chat room id are required");
             }
-            const chat = await chatService.addMessage(chat_id, message);
-            console.log('chat:' + JSON.stringify(chat));
-            io.to(chat_id).emit("message", chat);
+            const newData = { message, user: socket.user.id };
+            console.log('newData:' + JSON.stringify(newData));
+            socket.to(chat_id).emit("receiveMessage", newData);
         } catch (error) {
             logSocketInfo(socket, "error", error);
         }
     });
-
-    // handle create chat room event
-    socket.on("createChatRoom", async (data) => {
-        logSocketInfo(socket, "info", `createChat: ${JSON.stringify(data)}`);
-        try {
-            const { participants } = data;
-            if (!participants || participants.length < 2) {
-                throw new Error("Participants are required and must be at least 2");
-            }
-            const chat = await chatService.addChat(participants);
-            console.log('chat:' + JSON.stringify(chat));
-            io.to(chat.chat_id).emit("chatCreated", chat);
-        } catch (error) {
-            logSocketInfo(socket, "error", error);
-        }
-    });
-
-    // handle delete chat room event
-    socket.on("deleteChatRoom", async (data) => {
-        logSocketInfo(socket, "info", `deleteChat: ${JSON.stringify(data)}`);
-        try {
-            const { chat_id } = data;
-            if (!chat_id) {
-                throw new Error("Chat room id is required");
-            }
-            await chatService.deleteChat(chat_id);
-            io.to(chat_id).emit("chatDeleted",);
-        } catch (error) {
-            logSocketInfo(socket, "error", error);
-        }
-    });
-
 
     // handle join event to join a room
     socket.on("join", (data) => {
         try {
             const { chat_id } = data;
             if (!chat_id) {
-                throw new Error("Chat room id is required");
+                throw new CustomError("Chat room id is required");
             }
-
-            // add the user to the chat room
-            const chat = chatService.addParticipant(chat_id, socket.user.id);
-
             logSocketInfo(socket, "info", `Join: ${JSON.stringify(data)}`);
 
             // join the chat room
@@ -79,7 +42,7 @@ const chattingSocketHandler = (socket, io, userSocketMap) => {
         try {
             const { chat_id } = data;
             if (!chat_id) {
-                throw new Error("Chat room id is required");
+                throw new CustomError("Chat room id is required");
             }
 
             // remove the user from the chat room

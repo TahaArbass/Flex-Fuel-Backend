@@ -2,7 +2,7 @@ const MuscleService = require('../services/muscle.service');
 const filterGetRequestsData = require('../utils/filterGetRequestsData');
 const { logInfo } = require('../utils/logger');
 const { TABLES } = require('../utils/staticData');
-
+const CustomError = require("../utils/errors/customError");
 // Muscle Controller 
 class MuscleController {
     // get all muscles

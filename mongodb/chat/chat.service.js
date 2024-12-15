@@ -1,5 +1,5 @@
 const Chat = require('./chat.model');
-const customError = require('../../utils/errors/customError');
+const CustomError = require('../../utils/errors/customError');
 
 // services for the chat model
 class ChatService {
@@ -10,17 +10,17 @@ class ChatService {
             const chat = await Chat.create({ participants });
             return chat;
         } catch (error) {
-            throw new customError(error.message, 500);
+            throw new CustomError(error.message, 500);
         }
     }
 
     // get all chats
     static async getAllChats() {
         try {
-            const chats = await Chat.findAll();
+            const chats = await Chat.find();
             return chats;
         } catch (error) {
-            throw new customError(error.message, 500);
+            throw new CustomError(error.message, 500);
         }
     }
 
@@ -30,7 +30,7 @@ class ChatService {
             const chat = await Chat.findOne({ chat_id });
             return chat;
         } catch (error) {
-            throw new customError(error.message, 500);
+            throw new CustomError(error.message, 500);
         }
     }
 
@@ -39,11 +39,25 @@ class ChatService {
         try {
             const chat = await Chat.findOne({ participants });
             if (!chat) {
-                throw new customError('Chat not found', 404);
+                throw new CustomError('Chat not found', 404);
             }
             return chat;
         } catch (error) {
-            throw new customError(error.message, 500);
+            throw new CustomError(error.message, 500);
+        }
+    }
+
+    // update a chat
+    static async updateChat(chat_id, participants) {
+        try {
+            const chat = await Chat.findByIdAndUpdate({ chat_id }, { participants }, { new: true });
+            // check if chat exists
+            if (!chat) {
+                throw new CustomError('Chat not found', 404);
+            }
+            return chat;
+        } catch (error) {
+            throw new CustomError(error.message, 500);
         }
     }
 
@@ -53,10 +67,10 @@ class ChatService {
             const chat = await Chat.findOneAndDelete({ chat_id });
             // check if chat exists
             if (!chat) {
-                throw new customError('Chat not found', 404);
+                throw new CustomError('Chat not found', 404);
             }
         } catch (error) {
-            throw new customError(error.message, 500);
+            throw new CustomError(error.message, 500);
         }
     }
 
@@ -66,12 +80,12 @@ class ChatService {
             const chat = await Chat.findOne({ chat_id });
             // check if chat exists
             if (!chat) {
-                throw new customError('Chat not found', 404);
+                throw new CustomError('Chat not found', 404);
             }
 
             // check if participant is already in chat
             if (chat.participants.includes(participant_id)) {
-                throw new customError('Participant already in chat', 400);
+                throw new CustomError('Participant already in chat', 400);
             }
 
             // add the participant
@@ -79,7 +93,7 @@ class ChatService {
             await chat.save();
             return chat;
         } catch (error) {
-            throw new customError(error.message, 500);
+            throw new CustomError(error.message, 500);
         }
     }
 
@@ -89,11 +103,11 @@ class ChatService {
             const chat = await Chat.findOne({ chat_id });
             // check if chat exists
             if (!chat) {
-                throw new customError('Chat not found', 404);
+                throw new CustomError('Chat not found', 404);
             }
             // check if participant does not exist
             if (!chat.participants.includes(participant_id)) {
-                throw new customError('Participant does not exist in chat', 400);
+                throw new CustomError('Participant does not exist in chat', 400);
             }
 
             // filter and remove the participant
@@ -101,7 +115,7 @@ class ChatService {
             await chat.save();
             return chat;
         } catch (error) {
-            throw new customError(error.message, 500);
+            throw new CustomError(error.message, 500);
         }
     }
 
@@ -112,19 +126,19 @@ class ChatService {
 
             // check if chat exists
             if (!chat) {
-                throw new customError('Chat not found', 404);
+                throw new CustomError('Chat not found', 404);
             }
 
             // check if sender exists
             if (!chat.participants.includes(message.sender_id)) {
-                throw new customError('Sender not in chat', 400);
+                throw new CustomError('Sender not in chat', 400);
             }
 
             chat.messages.push(message);
             await chat.save();
             return chat;
         } catch (error) {
-            throw new customError(error.message, 500);
+            throw new CustomError(error.message, 500);
         }
     }
 
@@ -135,12 +149,12 @@ class ChatService {
 
             // check if chat exists
             if (!chat) {
-                throw new customError('Chat not found', 404);
+                throw new CustomError('Chat not found', 404);
             }
 
             // check if message exists
             if (!chat.messages.includes(message_id)) {
-                throw new customError('Message not found', 404);
+                throw new CustomError('Message not found', 404);
             }
 
             // filter and remove the message
@@ -148,7 +162,7 @@ class ChatService {
             await chat.save();
             return chat;
         } catch (error) {
-            throw new customError(error.message, 500);
+            throw new CustomError(error.message, 500);
         }
     }
 }
