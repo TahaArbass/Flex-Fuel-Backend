@@ -131,6 +131,25 @@ const chattingSocketHandler = (socket, io, userSocketMap, userChatRoomMap) => {
         const online = Boolean(userSocketMap[data]);
         socket.emit("isOnlineResponse", online); // Send response directly to the client
     });
+
+    // Handle the "typing" event
+    socket.on("typing", (data) => {
+        logSocketInfo(socket, "info", `Typing: ${JSON.stringify(data)}`);
+        const chat_id = getChatId(socket.user.id, data.recipientId);
+        if (chat_id) {
+            socket.to(chat_id).emit("typing", socket.user.id);
+        }
+    });
+
+    // Handle the "stopTyping" event
+    socket.on("stopTyping", (data) => {
+        console.log('user stopped typing');
+        logSocketInfo(socket, "info", `StopTyping: ${JSON.stringify(data)}`);
+        const chat_id = getChatId(socket.user.id, data.recipientId);
+        if (chat_id) {
+            socket.to(chat_id).emit("stopTyping");
+        }
+    });
 };
 
 module.exports = chattingSocketHandler;
