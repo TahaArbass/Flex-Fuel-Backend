@@ -51,7 +51,7 @@ chatNamespace.on('connection', (socket) => {
     chattingSocketHandler(socket, chatNamespace, userSocketMap, userChatRoomMap);
 });
 
-// callNamespace.use(socketAuthMiddleware); // Use the socketAuthMiddleware
+callNamespace.use(socketAuthMiddleware); // Use the socketAuthMiddleware
 // Handle the connection event for the call (video and audio)
 callNamespace.on('connection', (socket) => {
     logSocketInfo(socket, 'info', `Call Socket Connected: ${socket.id}`);
