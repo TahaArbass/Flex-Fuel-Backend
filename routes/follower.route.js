@@ -15,6 +15,11 @@ router.get("/following/:followingId", FollowerController.getFollowersByFollowing
 // get all users a user is following (`follower_id`)
 router.get("/follower/:followerId", FollowerController.getFollowingsByFollowerId);
 
+// check if a user is following another user
+router.get("/isFollowing/:followerId/:followingId", FollowerController.isFollowing);
+
+// get followers info of a user
+router.get("/followersInfo/:followerId", FollowerController.getFollowersInfo);
 // create a new follower
 router.post("/", FollowerController.createFollower);
 

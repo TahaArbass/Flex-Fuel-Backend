@@ -43,11 +43,12 @@ const io = socketIo(server, {
 const chatNamespace = io.of('/chat');
 const callNamespace = io.of('/call');
 const userSocketMap = {}; // Map to store the user_id and socket_id
+const userChatRoomMap = {}; // Map to store the user_id and chat room
 // Handle the connection event for the chatting
 chatNamespace.use(socketAuthMiddleware); // Use the socketAuthMiddleware
 chatNamespace.on('connection', (socket) => {
     logSocketInfo(socket, 'info', `Chat Socket Connected: ${socket.id}`);
-    chattingSocketHandler(socket, chatNamespace, userSocketMap);
+    chattingSocketHandler(socket, chatNamespace, userSocketMap, userChatRoomMap);
 });
 
 // callNamespace.use(socketAuthMiddleware); // Use the socketAuthMiddleware

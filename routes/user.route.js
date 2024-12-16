@@ -13,7 +13,7 @@ const express = require('express');
 const router = express.Router();
 
 // Get all users
-router.get('/', authMiddleware, roleMiddleware([ROLES.ADMIN]), userController.getAllUsers);
+router.get('/', authMiddleware, userController.getAllUsers);
 // Get user by id, email, or username
 router.get('/:id', authMiddleware, userController.getUserById);
 router.get('/email/:email', authMiddleware, userController.getUserByEmail);

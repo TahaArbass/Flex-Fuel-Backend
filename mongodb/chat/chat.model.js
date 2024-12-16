@@ -24,7 +24,6 @@ const ChatSchema = new mongoose.Schema({
     chat_id: {
         type: String,
         required: true,
-        unique: true,
         default: new mongoose.Types.UUID,
     },
     // chat name is optional, will be helpful for group chats later

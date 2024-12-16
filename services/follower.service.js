@@ -95,7 +95,7 @@ class FollowerService {
             // if one of them fails, the other will not be created
             return await Follower.sequelize.transaction(async (t) => {
                 const follower = await Follower.create(data, { transaction: t });
-                await ChatService.addChat([follower_id, following_id], t);
+                const chat = await ChatService.addChat([follower_id, following_id], t);
                 return { follower, chat_id: chat.chat_id };
             });
         } catch (error) {
@@ -175,6 +175,18 @@ class FollowerService {
             });
         } catch (error) {
             throw new customError(`Error deleting follower: ${error.message}`);
+        }
+    }
+
+    // helper function to check if a user is already following another user
+    static async isFollowing(followerId, followingId) {
+        try {
+            const follower = await Follower.findOne({
+                where: { follower_id: followerId, following_id: followingId },
+            });
+            return !!follower;
+        } catch (error) {
+            throw new customError(`Error checking if user is following: ${error.message}`);
         }
     }
 }

@@ -1,4 +1,5 @@
 const FollowerService = require("../services/follower.service");
+const UserService = require("../services/user.service");
 const CustomError = require("../utils/errors/customError");
 const { logInfo } = require("../utils/logger");
 class FollowerController {
@@ -102,6 +103,44 @@ class FollowerController {
             }
             await FollowerService.deleteFollower(id);
             return res.status(204).end();
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    // helper function to check if a user is already following another user
+    static async isFollowing(req, res, next) {
+        try {
+            logInfo(req, "info");
+            const follower_id = req.params.followerId;
+            const following_id = req.params.followingId;
+            if (!follower_id || !following_id) {
+                throw new CustomError("Follower ID and Following ID are required", 400);
+            }
+            const isFollowing = await FollowerService.isFollowing(follower_id, following_id);
+            return res.status(200).json({ isFollowing });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    // helper function to get the followers info for a user
+    static async getFollowersInfo(req, res, next) {
+        try {
+            logInfo(req, "info");
+            const userId = req.params.followerId;
+            if (!userId) {
+                throw new CustomError("Please provide a user ID", 400);
+            }
+            const followersInfo = await FollowerService.getFollowingsByFollowerId(userId);
+            // for each follower, get the user info
+            const followers = await Promise.all(
+                followersInfo.map(async (follower) => {
+                    const user = await UserService.getUserById(follower.following_id);
+                    return user.dataValues;
+                })
+            );
+            return res.status(200).json(followers);
         } catch (error) {
             next(error);
         }

@@ -36,16 +36,36 @@ class ChatService {
 
     // get chat by participants
     static async getChatByParticipants(participants) {
+        const chat = await Chat.findOne({ participants: { $all: participants } });
+        console.log(participants);
+        if (!chat) {
+            throw new CustomError('Chat not found', 404);
+        }
+        return chat;
+    }
+
+    static async getChatsByParticipant(participant_id) {
         try {
-            const chat = await Chat.findOne({ participants });
-            if (!chat) {
-                throw new CustomError('Chat not found', 404);
+            // Ensure participant_id is valid
+            if (!participant_id) {
+                throw new CustomError("Participant ID is required", 400);
             }
-            return chat;
+
+            // Fetch all chats containing the participant
+            const chats = await Chat.find({ participants: participant_id });
+
+            // Optionally, handle the case when no chats are found
+            if (!chats || chats.length === 0) {
+                throw new CustomError("No chats found for this participant", 404);
+            }
+
+            return chats;
         } catch (error) {
+            console.error("Error fetching chats by participant:", error);
             throw new CustomError(error.message, 500);
         }
     }
+
 
     // update a chat
     static async updateChat(chat_id, participants) {
