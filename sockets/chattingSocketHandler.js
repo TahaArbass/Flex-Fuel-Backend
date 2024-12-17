@@ -143,12 +143,19 @@ const chattingSocketHandler = (socket, io, userSocketMap, userChatRoomMap) => {
 
     // Handle the "stopTyping" event
     socket.on("stopTyping", (data) => {
-        console.log('user stopped typing');
         logSocketInfo(socket, "info", `StopTyping: ${JSON.stringify(data)}`);
         const chat_id = getChatId(socket.user.id, data.recipientId);
         if (chat_id) {
             socket.to(chat_id).emit("stopTyping");
         }
+    });
+
+    // handle number of users online
+    socket.on("usersOnline", () => {
+        logSocketInfo(socket, "info", "Users Online");
+        // Get the count of users online
+        const usersOnlineCount = Object.keys(userSocketMap).length;
+        socket.emit("usersOnlineResponse", { count: usersOnlineCount });
     });
 };
 
