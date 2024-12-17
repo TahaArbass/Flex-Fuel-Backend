@@ -5,7 +5,7 @@ const CustomError = require("../utils/errors/customError");
 const chattingSocketHandler = (socket, io, userSocketMap, userChatRoomMap) => {
     // Map the current socket ID to the user
     userSocketMap[socket.user.id] = socket.id;
-    console.log("users:", JSON.stringify(userSocketMap));
+    // console.log("users:", JSON.stringify(userSocketMap));
 
     // Helper function to get the user's chat rooms
     const getChatRooms = async () => {
@@ -30,7 +30,7 @@ const chattingSocketHandler = (socket, io, userSocketMap, userChatRoomMap) => {
                 socket.join(chat.chat_id);
             });
 
-            console.log("userChatRoomMap:", JSON.stringify(userChatRoomMap));
+            // console.log("userChatRoomMap:", JSON.stringify(userChatRoomMap));
         } catch (error) {
             logSocketInfo(socket, "error", error.message);
         }

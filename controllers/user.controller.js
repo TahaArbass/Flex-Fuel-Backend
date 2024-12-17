@@ -118,6 +118,17 @@ class UserController {
             res.status(400).json({ message: error.message });
         }
     }
+
+    // count all users
+    static async countAllUsers(req, res) {
+        try {
+            logInfo(req, 'info');
+            const count = await UserService.countAllUsers();
+            res.status(200).json({ count });
+        } catch (error) {
+            res.status(400).json({ message: error.message });
+        }
+    }
 }
 
 module.exports = UserController;

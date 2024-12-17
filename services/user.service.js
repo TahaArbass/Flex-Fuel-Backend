@@ -101,6 +101,16 @@ class UserService {
             throw error;
         }
     }
+
+    //  count all users
+    static async countAllUsers() {
+        try {
+            const users = await User.findAndCountAll();
+            return users.count;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = UserService;

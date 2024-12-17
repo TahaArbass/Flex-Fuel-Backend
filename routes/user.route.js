@@ -9,11 +9,13 @@ const { ROLES } = require('../utils/staticData');
 const roleMiddleware = require('../middlewares/roleMiddleware');
 const viewOwnershipMiddleware = require('../middlewares/viewOwnershipMiddleware');
 const express = require('express');
-
 const router = express.Router();
 
 // Get all users
 router.get('/', authMiddleware, userController.getAllUsers);
+
+// count all users
+router.get('/count', authMiddleware, userController.countAllUsers);
 // Get user by id, email, or username
 router.get('/:id', authMiddleware, userController.getUserById);
 router.get('/email/:email', authMiddleware, userController.getUserByEmail);
@@ -27,5 +29,8 @@ router.delete('/:id', authMiddleware, viewOwnershipMiddleware(), userController.
 // User authentication routes (signup and login)
 router.post('/signup', userAuthController.signUp);
 router.post('/login', userAuthController.login);
+
+
+
 
 module.exports = router;
